@@ -1,0 +1,277 @@
+/* ============================================================
+   Golden Hills Restaurant - Responsive Styles
+   ============================================================ */
+
+/* ── Large Tablets / Small Desktops (≤1024px) ─────────────── */
+@media (max-width: 1024px) {
+  .features-grid    { grid-template-columns: repeat(2, 1fr); }
+  .about-grid       { grid-template-columns: 1fr; gap: 48px; }
+  .about-images     { max-width: 560px; margin: 0 auto; }
+  .menu-grid        { grid-template-columns: repeat(2, 1fr); }
+  .special-inner    { grid-template-columns: 1fr; gap: 40px; }
+  .special-plate    { max-width: 320px; height: 320px; font-size: 7rem; margin: 0 auto; }
+  .gallery-grid     { columns: 2; }
+  .counters-grid    { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+  .footer-grid      { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .contact-grid     { grid-template-columns: 1fr; }
+  .specials-grid    { grid-template-columns: 1fr; max-width: 600px; margin: 0 auto; }
+  #lightbox-prev    { left: -16px; }
+  #lightbox-next    { right: -16px; }
+}
+
+/* Tablet-only sizing for the pillars orbit (phones fall back to a stacked list) */
+@media (min-width: 701px) and (max-width: 1024px) {
+  .pillars-orbit { max-width: 560px; }
+  .pillar-node   { width: 170px; padding: 18px 14px; }
+  .pillar-hub    { width: 122px; height: 122px; }
+}
+
+/* ── Tablets (≤768px) ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section-pad { padding: 64px 0; }
+
+  /* Navbar — slide-in drawer from the left */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: min(82vw, 320px);
+    height: 100%;
+    background: linear-gradient(180deg, rgba(15,43,30,.99), rgba(12,36,25,.99));
+    padding: 0 26px 28px;
+    border-top: none;
+    border-right: 1px solid rgba(31,122,77,.18);
+    box-shadow: 12px 0 44px rgba(0,0,0,.55);
+    z-index: 200;
+    transform: translateX(-100%);
+    transition: transform .38s cubic-bezier(0.4,0,0.2,1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-links.open { transform: translateX(0); }
+  .nav-links a {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+    font-size: 1rem;
+  }
+  .nav-links a::after { display: none; }
+  .nav-order { margin-left: 0; margin-top: 16px; }
+  .nav-order .btn { width: 100%; text-align: center; }
+  .hamburger { display: flex; z-index: 201; position: relative; }
+
+  /* Drawer header with close button */
+  .nav-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0 16px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(31,122,77,.18);
+  }
+  .nav-drawer-title {
+    font-family: var(--font-display);
+    color: var(--gold);
+    font-size: 1.05rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .nav-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.04);
+    color: var(--white);
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  .nav-close:hover { background: var(--gold); border-color: var(--gold); color: var(--purple-dark); transform: rotate(90deg); }
+
+  /* Overlay */
+  .nav-overlay { display: block; }
+
+  body.nav-open { overflow: hidden; }
+
+  /* Hero */
+  .hero-title { font-size: clamp(2rem, 8vw, 3.2rem); }
+
+  /* Features */
+  .features-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+
+  /* Menu */
+  .menu-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+
+  /* Testimonials */
+  .testi-card { min-width: 100%; }
+
+  /* About */
+  .about-img-accent { display: none; }
+  .about-stats { flex-wrap: wrap; gap: 20px; }
+  .stat { border-left: none; padding: 0; }
+
+  /* Gallery */
+  .gallery-grid { columns: 1; }
+
+  /* Footer */
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+
+  /* Forms */
+  .form-wrap { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+
+  /* Newsletter */
+  .newsletter-form { flex-direction: column; }
+
+  /* Counters */
+  .counters-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Page header */
+  .page-header { padding: 130px 0 60px; }
+
+  /* Pillars photo strip */
+  .pillars-photo-strip { grid-template-columns: 1fr; }
+}
+
+/* ── Mobile (≤480px) ──────────────────────────────────────── */
+@media (max-width: 480px) {
+  .section-pad { padding: 48px 0; }
+  .container { padding: 0 16px; }
+
+  .hero-content { text-align: center; }
+  .hero-actions { justify-content: center; }
+
+  .menu-filters { gap: 8px; }
+  .filter-btn { padding: 6px 14px; font-size: .75rem; }
+
+  .section-header { margin-bottom: 36px; }
+
+  .counters-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .special-plate { height: 240px; font-size: 5rem; }
+
+
+  .form-wrap { padding: 24px 16px; }
+
+  .testi-inner { padding: 24px 20px; }
+
+  .footer-socials { flex-wrap: wrap; }
+}
+
+/* ============================================================
+   Mobile Fixes — all breakpoints
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* Section headings */
+  .section-header h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); }
+
+  /* Contact grid */
+  .contact-grid { grid-template-columns: 1fr !important; }
+
+  /* Hero stats bar */
+  .hero-stats { flex-direction: column; gap: 12px; }
+
+  /* Give photo banner */
+  .give-photo-banner img { height: 200px; }
+
+  /* Pillars photo strip */
+  .pillars-photo-strip { grid-template-columns: 1fr; }
+  .pillars-photo-strip img { height: 180px; }
+
+  /* Popup */
+  .latest-popup-card { max-width: 96vw; }
+
+  /* Footer hours */
+  .hours-table td { font-size: .82rem; }
+
+  /* Nav mobile bg */
+  .nav-menu { background: rgba(15,43,30,.98); }
+}
+
+@media (max-width: 480px) {
+  /* Section padding */
+  .section-pad { padding: 52px 0; }
+
+  /* Sermon/event cards — single column */
+  .menu-grid { grid-template-columns: 1fr !important; }
+
+  /* About stats */
+  .about-stats { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .stat { border-left: none; padding: 0; }
+
+  /* About grid */
+  .about-grid { grid-template-columns: 1fr !important; gap: 24px; }
+  .about-img-main { height: 220px; }
+  .about-img-accent { display: none; }
+
+  /* Give actions buttons */
+  .give-actions { flex-direction: column; gap: 12px; }
+  .give-actions .btn { width: 100%; text-align: center; display: block; }
+
+  /* Contact info card padding */
+  .contact-info-card { padding: 20px 16px; }
+
+  /* Form row */
+  .form-row { grid-template-columns: 1fr !important; }
+
+  /* Sermon filter buttons */
+  .menu-filters { flex-wrap: wrap; justify-content: center; gap: 8px; }
+
+  /* Pillar nodes */
+  .pillar-node { padding: 20px 16px; }
+
+  /* Back to top */
+
+  /* WhatsApp float button — stack above the (smaller) back-to-top button */
+  #whatsapp-float { right: 12px; bottom: 68px; width: 44px; height: 44px; }
+  #whatsapp-float svg { width: 23px; height: 23px; }
+
+  /* Latest popup image */
+  .latest-popup-img { height: 150px; }
+  .latest-popup-actions { flex-direction: column; gap: 10px; }
+  .latest-popup-actions .btn { width: 100%; text-align: center; }
+
+  /* Prevent any element from overflowing viewport */
+  body { overflow-x: hidden; }
+  .container { padding: 0 16px; }
+}
+
+/* ── Extra-small phones (≤380px) ──────────────────────────── */
+@media (max-width: 380px) {
+  .nav-logo { font-size: 1.25rem; }
+  .hero-title { font-size: clamp(1.7rem, 9vw, 2.4rem); }
+  .hero-desc { font-size: .92rem; }
+  .btn { padding: 12px 20px; font-size: .82rem; }
+  .section-header h2 { font-size: 1.5rem; }
+  .nav-links { width: 88vw; padding: 0 20px 24px; }
+  .counters-grid { grid-template-columns: 1fr; gap: 16px; }
+  .about-badge { font-size: .7rem; padding: 10px; }
+}
+
+/* ── Large screens (≥1400px) ──────────────────────────────── */
+@media (min-width: 1400px) {
+  .container { max-width: 1320px; }
+  .hero-title { font-size: clamp(2.6rem, 4.2vw, 4.4rem); }
+}
+
+/* ── Landscape phones (short height) ──────────────────────── */
+@media (max-height: 480px) and (orientation: landscape) {
+  #hero { height: auto; min-height: 100vh; padding: 120px 0 60px; }
+  .nav-links { padding-top: 6px; }
+  .nav-drawer-head { padding: 14px 0 10px; }
+  .nav-links a { padding: 9px 0; }
+}
+
+/* ── Ensure tables and wide content never force horizontal scroll ── */
+@media (max-width: 600px) {
+  table { display: block; overflow-x: auto; }
+}
