@@ -1,708 +1,842 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Purified By Truth Ministries — a Bible-believing church in Luwero, Uganda. Sermons, events, crusades, giving and prayer requests.">
-  <title>Purified By Truth Ministries | Luwero, Uganda</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/animations.css">
-  <link rel="stylesheet" href="css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Purified By Truth Ministries — a Bible-believing church in Luwero, Uganda. Sermons, events, crusades, giving and prayer requests.">
+<title>Purified By Truth Ministries | Luwero, Uganda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Lato:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-dark:  #0A1830;
+    --navy:       #0F2547;
+    --navy-card:  #15325E;
+    --gold:       #C9962F;
+    --gold-light: #E0B65C;
+    --gold-dark:  #8A6416;
+    --blue-accent:#2F5FA8;
+    --cream:      #F5F7FA;
+    --ink:        #101C30;
+    --slate:      #4C5A73;
+    --line:       #E1E6EE;
+    --white:      #FFFFFF;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Lato', sans-serif; color: var(--ink); background: var(--cream); line-height:1.65; overflow-x:hidden; }
+  h1,h2,h3,h4{ font-family:'Playfair Display', serif; font-weight:600; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  ul{ list-style:none; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  section{ position:relative; }
+
+  /* ===== Reveal animation ===== */
+  .reveal{ opacity:0; transform:translateY(32px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.revealed{ opacity:1; transform:none; }
+  .stagger > *{ opacity:0; transform:translateY(26px); transition:opacity .6s ease, transform .6s ease; }
+  .stagger.revealed > *:nth-child(1){transition-delay:0s;}
+  .stagger.revealed > *:nth-child(2){transition-delay:.1s;}
+  .stagger.revealed > *:nth-child(3){transition-delay:.2s;}
+  .stagger.revealed > *:nth-child(4){transition-delay:.3s;}
+  .stagger.revealed > *{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ *{ animation-duration:.01ms !important; transition-duration:.01ms !important; } }
+
+  /* ===== Nav ===== */
+  header.site-nav{ position:fixed; top:0; left:0; right:0; z-index:100; padding:24px 0; transition:background .3s ease, padding .3s ease, box-shadow .3s ease; }
+  header.site-nav.scrolled{ background: var(--navy-dark); padding:14px 0; box-shadow:0 6px 24px rgba(0,0,0,.25); }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; }
+  .brand{ color:#fff; font-family:'Playfair Display', serif; font-size:19px; line-height:1.2; }
+  .brand span{ display:block; font-size:10.5px; letter-spacing:3px; font-family:'Lato',sans-serif; font-weight:700; color: var(--gold-light); margin-top:3px; }
+  nav.links{ display:flex; align-items:center; gap:28px; }
+  nav.links a{ position:relative; color:#fff; font-size:13px; letter-spacing:1px; text-transform:uppercase; font-weight:700; opacity:.92; padding-bottom:4px; }
+  nav.links a::after{ content:""; position:absolute; left:0; bottom:-2px; width:0; height:2px; background: var(--gold-light); transition:width .3s ease; }
+  nav.links a:hover::after{ width:100%; }
+  nav.links a.give-link{ background: var(--gold); color: var(--navy-dark); padding:10px 20px; border-radius:2px; }
+  nav.links a.give-link::after{ display:none; }
+  nav.links a.give-link:hover{ background: var(--gold-light); }
+  .hamburger{ display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px; }
+  .hamburger span{ width:24px; height:2px; background:#fff; display:block; }
+
+  /* ===== Hero ===== */
+  .hero{ position:relative; min-height:680px; display:flex; align-items:flex-end;
+    background-image: linear-gradient(180deg, rgba(10,24,48,.5) 0%, rgba(10,24,48,.4) 40%, rgba(10,24,48,.94) 100%), url('images/sermon.jpg');
+    background-size:cover; background-position:center; }
+  .hero-content{ position:relative; z-index:2; padding:160px 0 80px; color:#fff; max-width:640px; }
+  .hero-eyebrow{ font-size:13px; letter-spacing:3px; text-transform:uppercase; color: var(--gold-light); font-weight:700; margin-bottom:18px; }
+  .hero h1{ font-size:50px; line-height:1.1; margin-bottom:20px; }
+  .hero h1 em{ font-style:italic; color: var(--gold-light); }
+  .hero p{ font-size:17px; color:#e4e9f2; max-width:480px; margin-bottom:32px; }
+  .hero-actions{ display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{ position:relative; overflow:hidden; display:inline-block; padding:14px 30px; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; border-radius:2px; transition:.2s; border:1px solid transparent; cursor:pointer; }
+  .btn-gold{ background: var(--gold); color: var(--navy-dark); }
+  .btn-gold:hover{ background: var(--gold-light); transform:translateY(-2px); box-shadow:0 10px 24px rgba(201,150,47,.35); }
+  .btn-outline{ border-color:rgba(255,255,255,.55); color:#fff; }
+  .btn-outline:hover{ background:rgba(255,255,255,.12); }
+  .btn-navy{ background: var(--navy); color:#fff; }
+  .btn-navy:hover{ background: var(--navy-dark); transform:translateY(-2px); }
+  .btn-outline-navy{ border-color: var(--navy); color: var(--navy); }
+  .btn-outline-navy:hover{ background: var(--navy); color:#fff; }
+  .scroll-cue{ position:absolute; left:50%; bottom:26px; transform:translateX(-50%); width:22px; height:36px; border:2px solid rgba(255,255,255,.5); border-radius:14px; z-index:2; }
+  .scroll-cue::before{ content:""; position:absolute; top:6px; left:50%; width:4px; height:8px; background:var(--gold-light); border-radius:2px; transform:translateX(-50%); animation:scrollCue 1.8s ease infinite; }
+  @keyframes scrollCue{ 0%{opacity:1;top:6px;} 70%{opacity:0;top:18px;} 100%{opacity:0;top:6px;} }
+
+  /* ===== Info band (mockup layout) ===== */
+  .info-band{ background:#fff; border-bottom:1px solid var(--line); }
+  .info-grid{ display:grid; grid-template-columns:repeat(3,1fr); }
+  .info-col{ padding:48px 40px; border-left:1px solid var(--line); }
+  .info-col:first-child{ border-left:none; }
+  .info-col h3{ font-size:13px; letter-spacing:2.5px; text-transform:uppercase; font-family:'Lato',sans-serif; font-weight:700; color: var(--navy); margin-bottom:22px; padding-bottom:14px; border-bottom:2px solid var(--gold); display:inline-block; }
+  .stream-thumb{ position:relative; aspect-ratio:16/9; border-radius:3px; overflow:hidden; margin-bottom:14px; background-size:cover; background-position:center; cursor:pointer; }
+  .play-btn{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:center; transition:transform .25s ease; }
+  .stream-thumb:hover .play-btn{ transform:translate(-50%,-50%) scale(1.1); }
+  .play-btn::after{ content:""; width:0; height:0; margin-left:4px; border-top:9px solid transparent; border-bottom:9px solid transparent; border-left:14px solid var(--navy-dark); }
+  .stream-caption{ font-size:13px; color: var(--slate); }
+  .stream-caption strong{ color: var(--ink); }
+  .event-row{ padding:13px 0; border-bottom:1px solid var(--line); }
+  .event-row:last-child{ border-bottom:none; }
+  .event-row .date{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color: var(--gold-dark); font-weight:700; }
+  .event-row .title{ font-size:15.5px; font-weight:700; margin-top:2px; }
+  .event-row .loc{ font-size:13px; color: var(--slate); margin-top:1px; }
+  .connect-col{ background: var(--navy-dark); color:#fff; }
+  .connect-col h3{ color:#fff; border-bottom-color: var(--gold); }
+  .connect-col p{ font-size:14.5px; color:#c3cee0; margin-bottom:26px; }
+  .im-new{ display:block; text-align:center; background: linear-gradient(120deg,var(--gold),var(--gold-light)); color: var(--navy-dark); font-weight:700; letter-spacing:1.5px; text-transform:uppercase; font-size:13px; padding:16px; border-radius:2px; margin-bottom:14px; }
+  .connect-list{ display:flex; flex-direction:column; gap:10px; font-size:14px; }
+  .connect-list a{ border-bottom:1px solid rgba(255,255,255,.15); padding-bottom:9px; opacity:.9; display:block; }
+  .connect-list a:hover{ opacity:1; }
+
+  /* ===== Section headers ===== */
+  .section-pad{ padding:96px 0; }
+  .section-head{ text-align:center; max-width:620px; margin:0 auto 52px; position:relative; }
+  .eyebrow{ font-size:12.5px; letter-spacing:2.5px; text-transform:uppercase; color: var(--gold-dark); font-weight:700; margin-bottom:14px; display:inline-block; }
+  .section-head h2{ font-size:34px; color: var(--navy-dark); }
+  .section-head p{ color: var(--slate); margin-top:14px; font-size:15px; }
+  .on-dark .section-head h2{ color:#fff; }
+  .on-dark .section-head p{ color:#b7c3d9; }
+  .on-dark .eyebrow{ color: var(--gold-light); }
+  .divider{ width:60px; height:3px; background:linear-gradient(90deg,var(--gold),var(--gold-light)); margin:14px auto 0; border-radius:2px; }
+
+  /* ===== About ===== */
+  .about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
+  .about-photo{ position:relative; aspect-ratio:4/5; border-radius:3px; overflow:hidden; background-size:cover; background-position:center; }
+  .about-photo .accent{ position:absolute; width:46%; bottom:-24px; right:-24px; border:6px solid var(--cream); border-radius:3px; aspect-ratio:4/5; background-size:cover; background-position:center; box-shadow:0 12px 30px rgba(10,24,48,.25); }
+  .about-text h2{ font-size:32px; margin-bottom:18px; color: var(--navy-dark); }
+  .about-text p{ color: var(--slate); margin-bottom:14px; font-size:15.5px; }
+  .about-stats{ display:flex; gap:36px; margin-top:26px; }
+  .about-stats .stat strong{ display:block; font-family:'Playfair Display',serif; font-size:32px; color: var(--gold-dark); }
+  .about-stats .stat span{ font-size:12px; letter-spacing:.5px; text-transform:uppercase; color: var(--slate); }
+
+  /* ===== Founder ===== */
+  .founder{ background:#fff; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .founder-grid{ display:grid; grid-template-columns:320px 1fr; gap:56px; align-items:center; }
+  .founder-photo{ aspect-ratio:4/5; border-radius:3px; overflow:hidden; background-size:cover; background-position:center; }
+  .founder h3{ font-size:27px; color: var(--navy-dark); margin-bottom:6px; }
+  .founder .role{ color: var(--gold-dark); font-style:italic; margin-bottom:16px; }
+  .founder p{ color: var(--slate); margin-bottom:14px; font-size:15.5px; }
+
+  /* ===== Vision & Mission ===== */
+  .vm-grid{ display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  .vm-card{ background:#fff; border:1px solid var(--line); border-top:3px solid var(--gold); border-radius:3px; padding:36px 34px; transition:transform .25s ease, box-shadow .25s ease; }
+  .vm-card:hover{ transform:translateY(-6px); box-shadow:0 20px 40px rgba(10,24,48,.08); }
+  .vm-card .tag{ font-family:'Playfair Display',serif; font-style:italic; color: var(--gold-dark); font-size:14px; margin-bottom:10px; display:block; }
+  .vm-card h3{ font-size:20px; color: var(--navy-dark); margin-bottom:12px; }
+  .vm-card p{ color: var(--slate); font-size:15px; }
+  .vm-quote{ text-align:center; margin-top:40px; }
+  .vm-quote p{ font-family:'Playfair Display',serif; font-style:italic; font-size:19px; color: var(--gold-dark); }
+  .vm-quote span{ display:block; margin-top:8px; font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color: var(--slate); }
+
+  /* ===== Pillars ===== */
+  .pillars{ background: var(--navy-dark); color:#fff; }
+  .pillar-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:rgba(255,255,255,.08); }
+  .pillar-card{ background: var(--navy-dark); padding:38px 30px; transition:background .25s ease; }
+  .pillar-card:hover{ background: var(--navy); }
+  .pillar-card .num{ font-family:'Playfair Display',serif; font-size:14px; color: var(--gold-light); margin-bottom:16px; letter-spacing:2px; }
+  .pillar-card h3{ font-size:19px; color:#fff; margin-bottom:12px; }
+  .pillar-card p{ color:#aebbd4; font-size:14px; }
+
+  /* ===== Sermons ===== */
+  .filter-row{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-bottom:44px; }
+  .filter-btn{ background:transparent; border:1px solid var(--line); color: var(--slate); font-size:12.5px; letter-spacing:1px; text-transform:uppercase; font-weight:700; padding:10px 20px; border-radius:20px; cursor:pointer; transition:.2s; }
+  .filter-btn:hover{ border-color: var(--gold); color: var(--navy-dark); }
+  .filter-btn.active{ background: var(--gold); border-color: var(--gold); color: var(--navy-dark); }
+  .sermon-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:28px; }
+  .sermon-card{ background:#fff; border-radius:3px; overflow:hidden; border:1px solid var(--line); transition:transform .25s ease, box-shadow .25s ease; }
+  .sermon-card:hover{ transform:translateY(-6px); box-shadow:0 20px 40px rgba(10,24,48,.1); }
+  .sermon-card.hidden{ display:none; }
+  .sermon-img{ aspect-ratio:16/10; background-size:cover; background-position:center; }
+  .sermon-body{ padding:24px 26px; }
+  .card-tag{ font-size:11.5px; letter-spacing:1.5px; text-transform:uppercase; color: var(--gold-dark); font-weight:700; margin-bottom:8px; }
+  .sermon-body h3{ font-size:19px; color: var(--navy-dark); margin-bottom:8px; }
+  .sermon-body p{ color: var(--slate); font-size:14.5px; margin-bottom:16px; }
+
+  /* ===== Events ===== */
+  .events{ background: var(--navy); color:#fff; }
+  .event-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; margin-bottom:48px; }
+  .event-card{ background: var(--navy-card); border-radius:3px; overflow:hidden; transition:transform .25s ease; }
+  .event-card:hover{ transform:translateY(-6px); }
+  .event-card-img{ aspect-ratio:16/10; background-size:cover; background-position:center; }
+  .event-card-body{ padding:22px 24px; }
+  .event-card-body h3{ font-size:18px; color:#fff; margin-bottom:8px; }
+  .event-card-body p{ color:#b7c3d9; font-size:14px; margin-bottom:14px; }
+  .gallery-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .gallery-item{ aspect-ratio:1; border-radius:3px; overflow:hidden; background-size:cover; background-position:center; transition:transform .3s ease; }
+  .gallery-item:hover{ transform:scale(1.04); }
+
+  /* ===== Devotionals ===== */
+  .devo-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .devo-card{ background:#fff; border-radius:3px; overflow:hidden; border:1px solid var(--line); transition:transform .25s ease, box-shadow .25s ease; }
+  .devo-card:hover{ transform:translateY(-6px); box-shadow:0 20px 40px rgba(10,24,48,.1); }
+
+  /* ===== Give ===== */
+  .give-banner{ max-width:920px; margin:0 auto 44px; border-radius:4px; overflow:hidden; }
+  .give-banner img{ width:100%; }
+  .give-cards{ display:grid; grid-template-columns:1fr 1fr; gap:26px; max-width:920px; margin:0 auto; }
+  .give-card{ background:#fff; border:1px solid var(--line); border-radius:3px; padding:32px 30px; }
+  .give-card h3{ font-size:19px; color: var(--navy-dark); margin-bottom:18px; }
+  .g-item{ display:flex; gap:14px; margin-bottom:16px; align-items:flex-start; }
+  .g-icon{ width:40px; height:40px; border-radius:50%; overflow:hidden; flex-shrink:0; background: var(--navy); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:13px; }
+  .g-item strong{ display:block; color: var(--navy-dark); font-size:14.5px; margin-bottom:2px; }
+  .g-item p{ color: var(--slate); font-size:13.5px; }
+  .give-note{ color: var(--slate); font-size:13px; margin-top:6px; }
+  .give-actions{ text-align:center; margin-top:40px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  /* ===== Forms ===== */
+  .form-wrap{ background:#fff; border:1px solid var(--line); border-radius:4px; padding:40px; }
+  .form-wrap.on-navy{ background: var(--navy-card); border-color:transparent; }
+  .form-wrap.on-navy label{ color:#dbe3f0; }
+  .form-wrap.on-navy input, .form-wrap.on-navy select, .form-wrap.on-navy textarea{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.18); color:#fff; }
+  .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .form-group{ margin-bottom:18px; }
+  .form-group label{ display:block; font-size:13px; font-weight:700; color: var(--navy-dark); margin-bottom:7px; }
+  .form-group input, .form-group select, .form-group textarea{
+    width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:3px; font-family:inherit; font-size:14.5px; background:#fbfbfc; transition:border-color .2s ease;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus{ outline:none; border-color: var(--gold); }
+  .form-success{ display:none; text-align:center; padding:40px 20px; }
+  .form-success .tick{ width:56px; height:56px; border-radius:50%; background: var(--gold); color:#fff; font-size:24px; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; }
+  .form-success h3{ color: var(--navy-dark); margin-bottom:8px; }
+  .form-success p{ color: var(--slate); }
+  .contact-layout{ display:grid; grid-template-columns:1fr 1.1fr; gap:40px; }
+  .contact-info{ background: var(--navy-dark); color:#fff; border-radius:4px; padding:40px; }
+  .contact-info h3{ font-size:20px; margin-bottom:22px; }
+  .c-item{ display:flex; gap:14px; margin-bottom:18px; }
+  .c-icon{ width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; color: var(--gold-light); flex-shrink:0; }
+  .c-item strong{ display:block; font-size:14px; margin-bottom:2px; }
+  .c-item p, .c-item a{ color:#b7c3d9; font-size:14px; }
+  .hours-table{ width:100%; margin-top:20px; border-top:1px solid rgba(255,255,255,.15); padding-top:16px; }
+  .hours-table td{ padding:6px 0; font-size:14px; color:#dbe3f0; }
+  .hours-table td:last-child{ text-align:right; color: var(--gold-light); font-weight:700; }
+  .map-note{ margin-top:22px; padding-top:18px; border-top:1px solid rgba(255,255,255,.15); font-size:13px; color:#b7c3d9; }
+  .map-note a{ color: var(--gold-light); font-weight:700; }
+
+  /* ===== Newsletter ===== */
+  .newsletter{ background: linear-gradient(120deg, var(--navy-dark), var(--navy)); color:#fff; text-align:center; padding:70px 0; }
+  .newsletter h2{ font-size:28px; margin-bottom:12px; }
+  .newsletter p{ color:#b7c3d9; max-width:480px; margin:0 auto 26px; }
+  .newsletter-form{ display:flex; gap:12px; max-width:440px; margin:0 auto; flex-wrap:wrap; justify-content:center; }
+  .newsletter-form input{ flex:1; min-width:220px; padding:14px 16px; border-radius:3px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff; font-family:inherit; }
+  .newsletter-form input::placeholder{ color:#b7c3d9; }
+  .newsletter-success{ display:none; margin-top:14px; color: var(--gold-light); font-weight:700; }
+
+  /* ===== Footer ===== */
+  footer{ background: var(--navy-dark); color:#a9b8d4; padding:64px 0 28px; }
+  .foot-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1fr; gap:44px; margin-bottom:48px; }
+  .foot-brand .name{ color:#fff; font-family:'Playfair Display',serif; font-size:20px; margin-bottom:14px; }
+  .foot-brand p{ font-size:14px; line-height:1.7; margin-bottom:16px; }
+  .foot-brand .whatsapp{ display:inline-block; font-size:13px; font-weight:700; color: var(--gold-light); border-bottom:1px solid var(--gold-dark); padding-bottom:2px; }
+  footer h4{ font-family:'Lato',sans-serif; font-size:12.5px; letter-spacing:2px; text-transform:uppercase; color:#fff; margin-bottom:18px; }
+  footer ul{ display:flex; flex-direction:column; gap:10px; font-size:14px; }
+  footer ul a:hover{ color:#fff; }
+  .foot-bottom{ border-top:1px solid rgba(255,255,255,.1); padding-top:24px; font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  /* ===== WhatsApp float ===== */
+  #whatsapp-float{ position:fixed; bottom:26px; right:26px; width:56px; height:56px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; z-index:90; box-shadow:0 10px 26px rgba(0,0,0,.3); }
+  #whatsapp-float svg{ width:28px; height:28px; fill:#fff; }
+  .wa-pulse{ position:absolute; inset:0; border-radius:50%; background:#25D366; animation:waPulse 2.2s ease-out infinite; z-index:-1; }
+  @keyframes waPulse{ 0%{ transform:scale(1); opacity:.6; } 100%{ transform:scale(1.9); opacity:0; } }
+
+  /* ===== Responsive ===== */
+  @media (max-width:980px){
+    nav.links{ position:fixed; top:0; right:-100%; height:100vh; width:78%; max-width:320px; background:var(--navy-dark); flex-direction:column; align-items:flex-start; padding:100px 32px 32px; gap:26px; transition:right .3s ease; }
+    nav.links.open{ right:0; }
+    .hamburger{ display:flex; }
+    .hero h1{ font-size:36px; }
+    .info-grid, .about-grid, .founder-grid, .vm-grid, .pillar-grid, .sermon-grid, .event-cards, .devo-grid, .give-cards, .contact-layout, .form-row, .foot-grid{ grid-template-columns:1fr; }
+    .info-col{ border-left:none; border-top:1px solid var(--line); }
+    .info-col:first-child{ border-top:none; }
+    .about-photo .accent{ display:none; }
+    .gallery-grid{ grid-template-columns:repeat(2,1fr); }
+    .wrap{ padding:0 20px; }
+  }
+</style>
 </head>
-<body class="page-fade-in">
+<body>
 
-  <div id="scroll-progress" role="progressbar" aria-label="Page scroll progress"></div>
+<header class="site-nav" id="siteNav">
+  <div class="wrap nav-inner">
+    <a href="#hero" class="brand">Purified By Truth<span>MINISTRIES</span></a>
+    <nav class="links" id="navLinks">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#sermons">Sermons</a>
+      <a href="#events">Events</a>
+      <a href="#devotionals">Devotionals</a>
+      <a href="#prayer">Prayer</a>
+      <a href="#contact">Contact</a>
+      <a href="#give" class="give-link">Give</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
 
-  <nav id="navbar" role="navigation" aria-label="Main navigation">
-    <div class="container nav-inner">
-      <a href="#hero" class="nav-logo" aria-label="Purified By Truth Ministries home">Purified By Truth <span>Ministries</span></a>
-      <ul class="nav-links" id="nav-links" role="list">
-        <li class="nav-drawer-head" aria-hidden="true">
-          <span class="nav-drawer-title">Menu</span>
-          <button class="nav-close" id="nav-close" aria-label="Close menu">&times;</button>
-        </li>
-        <li><a href="#hero">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#sermons">Sermons</a></li>
-        <li><a href="#events">Events</a></li>
-        <li><a href="#devotionals">Devotionals</a></li>
-        <li><a href="#prayer">Prayer</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li class="nav-order"><a href="#give" class="btn btn-gold">Give</a></li>
-      </ul>
-      <button class="hamburger" id="hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
-
-  <div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
-
-  <section id="hero" aria-label="Hero banner">
-    <div class="hero-slider" aria-hidden="true">
-      <div class="hero-slide" style="background-image:url('images/sermon.jpg');"></div>
-      <div class="hero-slide" style="background-image:url('images/IMG-20260628-WA0021.jpg');"></div>
-      <div class="hero-slide" style="background-image:url('images/IMG-20260628-WA0007.jpg');"></div>
-    </div>
-    <div class="hero-overlay" aria-hidden="true"></div>
-    <div class="container">
-      <div class="hero-content">
-        <p class="hero-eyebrow">Welcome to Purified By Truth Ministries</p>
-        <h1 class="hero-title">
-          Purified by Truth.<br>
-          <em id="typing-text">Rooted in Revelation</em>
-        </h1>
-        <p class="hero-desc">
-          A Bible-believing ministry in Luwero, Uganda, raising disciples, equipping leaders
-          and advancing God's Kingdom through the truth of His Word.
-        </p>
-        <div class="hero-actions">
-          <a href="#sermons" class="btn btn-gold">Watch Latest Update</a>
-          <a href="#contact" class="btn btn-outline">Plan Your Visit</a>
-        </div>
-      </div>
-    </div>
-    <div class="hero-dots" role="tablist" aria-label="Hero slide controls">
-      <button class="hero-dot active" role="tab" aria-label="Slide 1"></button>
-      <button class="hero-dot" role="tab" aria-label="Slide 2"></button>
-      <button class="hero-dot" role="tab" aria-label="Slide 3"></button>
-    </div>
-  </section>
-
-  <section class="section-pad light-section purple-tint" style="padding:46px 0;" aria-label="Service times">
-    <div class="container">
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:40px;text-align:center;" class="reveal">
-        <div>
-          <p class="eyebrow">Sunday Services</p>
-          <p style="color:var(--white);font-family:var(--font-display);font-size:1.3rem;">9:00 AM <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> 11:00 AM</p>
-        </div>
-        <div>
-          <p class="eyebrow">Midweek Services</p>
-          <p style="color:var(--white);font-family:var(--font-display);font-size:1.3rem;">Mon <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Wed &mdash; 5:00 PM</p>
-        </div>
-        <div>
-          <p class="eyebrow">Location</p>
-          <p style="color:var(--white);font-family:var(--font-display);font-size:1.3rem;">Luwero, Uganda</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="features" class="section-pad light-section" aria-labelledby="features-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">What We Stand On</span>
-        <h2 id="features-heading">Our Core Pillars</h2>
-        <div class="divider"></div>
-      </div>
-      <div class="pillars-orbit reveal">
-        <div class="orbit-ring ring-outer" aria-hidden="true"><span class="orbit-dot"></span></div>
-        <div class="orbit-ring ring-inner" aria-hidden="true"><span class="orbit-dot orbit-dot-alt"></span></div>
-        <div class="pillar-hub" aria-hidden="true"><strong>Christ</strong><span>Our Foundation</span></div>
-
-        <div class="pillar-node pillar-top">
-          <span class="pillar-index">01</span>
-          <h3>Truth</h3>
-          <p>We are committed to the uncompromising teaching and application of God's Word in every season.</p>
-        </div>
-
-        <div class="pillar-node pillar-right">
-          <span class="pillar-index">02</span>
-          <h3>Revelation</h3>
-          <p>We seek a deeper knowledge of Christ through the illumination of the Holy Spirit.</p>
-        </div>
-
-        <div class="pillar-node pillar-bottom">
-          <span class="pillar-index">03</span>
-          <h3>Church</h3>
-          <p>We are devoted to building strong believers and strengthening the Body of Christ.</p>
-        </div>
-
-        <div class="pillar-node pillar-left">
-          <span class="pillar-index">04</span>
-          <h3>Authority</h3>
-          <p>We equip believers to walk in Kingdom authority and fulfil God's purposes on the earth.</p>
-        </div>
-      </div>
-      <div class="pillars-photo-strip reveal" style="margin-top:50px;">
-        <img src="images/IMG-20260628-WA0021.jpg" alt="Pastor ministering the Word to a gathered crowd" loading="lazy">
-        <img src="images/sheep.jpg" alt="Congregation seated under the open sky" loading="lazy">
-        <img src="images/team-leaders.jpg" alt="Ministry leadership team" loading="lazy">
-      </div>
-    </div>
-  </section>
-
-  <section id="about" class="section-pad light-section" style="background:var(--bg-brown);" aria-labelledby="about-heading">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-images reveal reveal-left">
-          <img src="images/IMG-20260628-WA0019.jpg" alt="Congregation worshipping together at Purified By Truth Ministries" class="about-img-main">
-          <img src="images/Founder.jpg" alt="Pastor Sheila Nalweyiso ministering the Word" class="about-img-accent">
-        </div>
-        <div class="about-text reveal reveal-right">
-          <span class="eyebrow">Our Story</span>
-          <h2 id="about-heading">A Ministry Built on<br>Truth and Revelation</h2>
-          <p>Purified By Truth Ministries is led by Founder and Pastor Sheila Nalweyiso, with a clear conviction that the Church of Jesus Christ is victorious, that truth still transforms lives, and that every believer is called to walk in Kingdom authority, holiness and purpose.</p>
-          <p>From our base in Luwero, Uganda, the ministry holds regular Sunday and midweek services while also travelling to host crusades in surrounding communities &mdash; reaching new visitors with the Gospel and welcoming them into a growing local church family.</p>
-          <div class="about-stats">
-            <div class="stat"><strong>3</strong><span>Services Weekly</span></div>
-            <div class="stat"><strong>9</strong><span>Core Objectives</span></div>
-            <div class="stat"><strong>5</strong><span>Core Pillars</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-pad light-section" aria-labelledby="mv-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Our Purpose</span>
-        <h2 id="mv-heading">Vision <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Mission</h2>
-        <div class="divider"></div>
-      </div>
-      <div class="stagger-children vm-grid">
-        <div class="feature-card glow-hover vm-card">
-          <span class="vm-accent" aria-hidden="true"></span>
-          <span class="pillar-index">Vision</span>
-          <h3>Our Vision</h3>
-          <p>To raise a generation purified by the truth of God's Word, established upon the revelation of Jesus Christ, equipped with Kingdom authority, and commissioned to transform nations for the glory of God.</p>
-        </div>
-        <div class="feature-card glow-hover vm-card">
-          <span class="vm-accent" aria-hidden="true"></span>
-          <span class="pillar-index">Mission</span>
-          <h3>Our Mission</h3>
-          <p>To proclaim God's truth, reveal Jesus Christ as Lord and Savior, disciple believers into spiritual maturity, equip them to exercise Kingdom authority, and build a victorious Church that advances God's Kingdom on earth.</p>
-        </div>
-      </div>
-      <div class="text-center reveal give-actions" style="margin-top:48px;">
-        <p style="font-family:var(--font-display);font-style:italic;color:var(--gold-dark);font-size:1.3rem;">"Purified by Truth. Rooted in Revelation. Advancing the Kingdom."</p>
-        <p style="color:var(--text-dark-mid);margin-top:6px;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem;">Truth &middot; Revelation &middot; Authority</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section-pad light-section" style="background:var(--bg-light);" aria-labelledby="founder-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Leadership</span>
-        <h2 id="founder-heading">Meet Our Founder</h2>
-        <div class="divider"></div>
-      </div>
-      <div class="reveal founder-grid">
-        <div class="founder-photo-frame">
-          <img src="images/Founder.jpg" alt="Pastor Sheila Nalweyiso, Founder of Purified By Truth Ministries" class="chef-img founder-photo-img">
-        </div>
-        <div>
-          <span class="eyebrow">Founder <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Pastor</span>
-          <h3 style="font-family:var(--font-display);font-size:1.8rem;color:var(--text-dark);margin-bottom:8px;">Sheila Nalweyiso</h3>
-          <p style="color:var(--gold);margin-bottom:16px;font-style:italic;">Founder, Purified By Truth Ministries</p>
-          <p style="color:var(--text-dark-mid);margin-bottom:14px;">Pastor Sheila Nalweyiso founded Purified By Truth Ministries out of a conviction to lead people into a genuine revelation of Jesus Christ as the Son of the Living God, and to disciple believers into spiritual maturity through the uncompromising teaching of Scripture.</p>
-          <p style="color:var(--text-dark-mid);">Under her leadership the ministry holds regular services in Luwero and travels to surrounding communities to host crusades, declaring the Gospel and inviting new believers into the local church family.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="sermons" class="section-pad light-section purple-tint" aria-labelledby="sermons-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Hear the Word</span>
-        <h2 id="sermons-heading">Sermons <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Messages</h2>
-        <div class="divider"></div>
-        <p>All messages are shared as YouTube video links. Tap watch to play the sermon right here.</p>
-      </div>
-      <div class="menu-filters" role="tablist" aria-label="Sermon categories">
-        <button class="filter-btn active" data-filter="all" role="tab">All</button>
-        <button class="filter-btn" data-filter="sunday" role="tab">Sunday Service</button>
-        <button class="filter-btn" data-filter="midweek" role="tab">Midweek Service</button>
-        <button class="filter-btn" data-filter="crusade" role="tab">Crusade Highlights</button>
-      </div>
-      <div class="menu-grid stagger-children" id="menu-grid">
-        <article class="menu-card" data-category="sunday">
-          <div class="menu-card-img-wrap">
-            <img src="images/kenya.jpg" alt="Sanctified By the Truth" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Sunday Service</p>
-            <h3>Sanctified By the Truth</h3>
-            <p>An exploration of John 17:17 and what it means to be set apart by God's Word.</p>
-            <div class="menu-card-footer"><span class="price">YouTube</span><a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-yt="" data-title="Sanctified By the Truth">Watch</a></div>
-          </div>
-        </article>
-        <article class="menu-card" data-category="sunday">
-          <div class="menu-card-img-wrap">
-            <img src="images/sheep.jpg" alt="Built On the Rock" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Sunday Service</p>
-            <h3>Built On the Rock</h3>
-            <p>Understanding the revelation Peter received and what it means for the Church today.</p>
-            <div class="menu-card-footer"><span class="price">YouTube</span><a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-yt="" data-title="Built On the Rock">Watch</a></div>
-          </div>
-        </article>
-        <article class="menu-card" data-category="midweek">
-          <div class="menu-card-img-wrap">
-            <img src="images/IMG-20260628-WA0010.jpg" alt="The Keys of the Kingdom" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Midweek Service</p>
-            <h3>The Keys of the Kingdom</h3>
-            <p>Understanding the authority believers carry according to Matthew 16:19.</p>
-            <div class="menu-card-footer"><span class="price">YouTube</span><a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-yt="" data-title="The Keys of the Kingdom">Watch</a></div>
-          </div>
-        </article>
-        <article class="menu-card" data-category="crusade">
-          <div class="menu-card-img-wrap">
-            <img src="images/IMG-20260628-WA0014.jpg" alt="Revelation of the Living God" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Crusade Highlight</p>
-            <h3>Revelation of the Living God</h3>
-            <p>Highlights from a recent outreach crusade declaring Christ to the nations.</p>
-            <div class="menu-card-footer"><span class="price">YouTube</span><a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-gold" data-yt="" data-title="Revelation of the Living God">Watch</a></div>
-          </div>
-        </article>
-      </div>
-      <div class="text-center" style="margin-top:36px;">
-        <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-outline-gold">Visit Our YouTube Channel</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="events" class="section-pad light-section" style="background:var(--bg-brown);" aria-labelledby="events-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Join Us</span>
-        <h2 id="events-heading">Events <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Crusades</h2>
-        <div class="divider"></div>
-        <p>Purified By Truth Ministries holds regular services in Luwero and travels to host crusades in surrounding communities.</p>
-      </div>
-      <div class="menu-grid stagger-children">
-        <article class="menu-card">
-          <div class="menu-card-img-wrap">
-            <img src="images/IMG-20260628-WA0019.jpg" alt="Sunday Worship Service" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">This Sunday, 9:00 AM <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> 11:00 AM</p>
-            <h3>Sunday Worship Service</h3>
-            <p>Join us for praise, the teaching of God's Word, and fellowship as one church family.</p>
-            <div class="menu-card-footer"><span class="price">Luwero, Uganda</span><a href="#contact" class="btn btn-gold">Get Details</a></div>
-          </div>
-        </article>
-        <article class="menu-card">
-          <div class="menu-card-img-wrap">
-            <img src="images/IMG-20260628-WA0009.jpg" alt="Midweek Service" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Monday <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Wednesday, 5:00 PM</p>
-            <h3>Midweek Service</h3>
-            <p>A time of focused teaching and prayer to build disciples in the middle of the week.</p>
-            <div class="menu-card-footer"><span class="price">Luwero, Uganda</span><a href="#contact" class="btn btn-gold">Get Details</a></div>
-          </div>
-        </article>
-        <article class="menu-card">
-          <div class="menu-card-img-wrap">
-            <img src="images/IMG-20260628-WA0018.jpg" alt="Community Outreach Crusade" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Upcoming Crusade</p>
-            <h3>Community Outreach Crusade</h3>
-            <p>An open-air crusade declaring the Gospel and inviting new visitors into God's Kingdom.</p>
-            <div class="menu-card-footer"><span class="price">Announced Soon</span><a href="#contact" class="btn btn-gold">Get Details</a></div>
-          </div>
-        </article>
-      </div>
-      <div class="gallery-grid" style="margin-top:48px;">
-        <div class="gallery-item" data-cat="crusade">
-          <img src="images/IMG-20260628-WA0021.jpg" alt="Crowd gathered at an evening crusade" loading="lazy">
-          <div class="gallery-overlay"><div class="gallery-zoom-icon">+</div></div>
-        </div>
-        <div class="gallery-item" data-cat="crusade">
-          <img src="images/sermon.jpg" alt="Hands raised during a crusade service" loading="lazy">
-          <div class="gallery-overlay"><div class="gallery-zoom-icon">+</div></div>
-        </div>
-        <div class="gallery-item" data-cat="outreach">
-          <img src="images/IMG-20260628-WA0007.jpg" alt="Ministry team praying with community members" loading="lazy">
-          <div class="gallery-overlay"><div class="gallery-zoom-icon">+</div></div>
-        </div>
-        <div class="gallery-item" data-cat="service">
-          <img src="images/IMG-20260628-WA0015.jpg" alt="Congregation in worship" loading="lazy">
-          <div class="gallery-overlay"><div class="gallery-zoom-icon">+</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
-    <div class="lightbox-content">
-      <button id="lightbox-close" aria-label="Close lightbox">&times;</button>
-      <img src="" alt="" id="lightbox-img">
-      <button class="lightbox-nav" id="lightbox-prev" aria-label="Previous image">&#8592;</button>
-      <button class="lightbox-nav" id="lightbox-next" aria-label="Next image">&#8594;</button>
+<section class="hero" id="hero">
+  <div class="wrap hero-content">
+    <div class="hero-eyebrow">Welcome to Purified By Truth Ministries</div>
+    <h1>Purified by Truth.<br><em>Rooted in Revelation.</em></h1>
+    <p>A Bible-believing ministry in Luwero, Uganda, raising disciples, equipping leaders and advancing God's Kingdom through the truth of His Word.</p>
+    <div class="hero-actions">
+      <a href="#sermons" class="btn btn-gold">Watch Latest Message</a>
+      <a href="#contact" class="btn btn-outline">Plan Your Visit</a>
     </div>
   </div>
+  <div class="scroll-cue" aria-hidden="true"></div>
+</section>
 
-  <section id="devotionals" class="section-pad light-section" aria-labelledby="blog-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Daily Bread</span>
-        <h2 id="blog-heading">Devotionals <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Reflections</h2>
-        <div class="divider"></div>
-        <p>Short reflections from the Word to encourage and strengthen you between services.</p>
+<section class="info-band">
+  <div class="wrap info-grid">
+    <div class="info-col">
+      <h3>Live Stream</h3>
+      <a class="stream-thumb" style="background-image:url('images/kenya.jpg');" href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer"><div class="play-btn"></div></a>
+      <p class="stream-caption"><strong>Sanctified By the Truth</strong> — Sunday Service, on YouTube</p>
+    </div>
+    <div class="info-col">
+      <h3>Calendar</h3>
+      <div class="event-row">
+        <div class="date">Sunday</div>
+        <div class="title">Sunday Worship Service</div>
+        <div class="loc">Luwero, Uganda · 9:00 AM &amp; 11:00 AM</div>
       </div>
-      <div class="menu-grid stagger-children">
-        <article class="menu-card">
-          <div class="menu-card-img-wrap">
-            <img src="images/training.jpg" alt="Sanctified by the Truth" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">This Week's Devotional</p>
-            <h3>Sanctified by the Truth</h3>
-            <p>A short reflection on John 17:17 and what it means to be set apart daily by God's Word.</p>
-            <div class="menu-card-footer"><span class="price">Devotional</span><a href="#contact" class="btn btn-gold">Read More</a></div>
-          </div>
-        </article>
-        <article class="menu-card">
-          <div class="menu-card-img-wrap">
-            <img src="images/team-leaders.jpg" alt="Living in Revelation" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Devotional</p>
-            <h3>Living in Revelation</h3>
-            <p>How a personal revelation of who Jesus is shapes the way we walk through every season of life.</p>
-            <div class="menu-card-footer"><span class="price">Devotional</span><a href="#contact" class="btn btn-gold">Read More</a></div>
-          </div>
-        </article>
-        <article class="menu-card">
-          <div class="menu-card-img-wrap">
-            <img src="images/tanzania-uganda-team.jpg" alt="Walking in Kingdom Authority" class="menu-card-img" loading="lazy">
-          </div>
-          <div class="menu-card-body">
-            <p class="menu-tag">Devotional</p>
-            <h3>Walking in Kingdom Authority</h3>
-            <p>Practical thoughts on stewarding the keys of the Kingdom through prayer, faith and obedience.</p>
-            <div class="menu-card-footer"><span class="price">Devotional</span><a href="#contact" class="btn btn-gold">Read More</a></div>
-          </div>
-        </article>
+      <div class="event-row">
+        <div class="date">Mon &amp; Wed</div>
+        <div class="title">Midweek Service</div>
+        <div class="loc">Luwero, Uganda · 5:00 PM</div>
+      </div>
+      <div class="event-row">
+        <div class="date">Announced Soon</div>
+        <div class="title">Community Outreach Crusade</div>
+        <div class="loc">Surrounding communities</div>
       </div>
     </div>
-  </section>
-
-  <section id="give" class="section-pad light-section purple-tint" aria-labelledby="give-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Sow Into the Kingdom</span>
-        <h2 id="give-heading">Give <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Donate</h2>
-        <div class="divider"></div>
-        <p>Your giving supports our services, crusades, outreach and the work of advancing God's Kingdom.</p>
-      </div>
-      <div class="give-photo-banner reveal" style="max-width:900px;margin:0 auto 40px;">
-        <img src="images/IMG-20260628-WA0010.jpg" alt="Community gathered for an outreach crusade in Luwero" loading="lazy">
-      </div>
-      <div class="stagger-children give-cards-grid">
-        <div class="contact-info-card reveal reveal-left">
-          <h3 style="color:var(--text-dark);">Mobile Money</h3>
-          <div class="c-item">
-            <div class="c-icon c-icon-brand" aria-hidden="true">
-              <svg viewBox="0 0 44 44" width="100%" height="100%">
-                <circle cx="22" cy="22" r="22" fill="#FFCC00"/>
-                <text x="22" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="11.5" fill="#0A0A0A">MTN</text>
-              </svg>
-            </div>
-            <div><strong>MTN Mobile Money</strong><p>+256 752 686 576<br>Purified By Truth Ministries</p></div>
-          </div>
-          <div class="c-item">
-            <div class="c-icon c-icon-brand" aria-hidden="true">
-              <svg viewBox="0 0 44 44" width="100%" height="100%">
-                <circle cx="22" cy="22" r="22" fill="#ED1C24"/>
-                <text x="22" y="27" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="9.5" fill="#FFFFFF">airtel</text>
-              </svg>
-            </div>
-            <div><strong>Airtel Money</strong><p>+256 752 686 576<br>Purified By Truth Ministries</p></div>
-          </div>
-          <p style="color:var(--gray-mid);margin-top:18px;font-size:.9rem;">Please contact us first via WhatsApp or phone to confirm details before sending mobile money.</p>
-        </div>
-        <div class="contact-info-card reveal reveal-right">
-          <h3 style="color:var(--text-dark);">Bank Transfer</h3>
-          <div class="c-item">
-            <div class="c-icon" aria-hidden="true">B</div>
-            <div><strong>Account Name</strong><p>Purified By Truth Ministries</p></div>
-          </div>
-          <div class="c-item">
-            <div class="c-icon" aria-hidden="true">D</div>
-            <div><strong>Bank Details</strong><p>Available on request &mdash; please contact us for full account details.</p></div>
-          </div>
-          <p style="color:var(--gray-mid);margin-top:18px;font-size:.9rem;">Email purifiedbytruth@gmail.com or message us on WhatsApp to receive complete bank account information.</p>
-        </div>
-      </div>
-      <div class="text-center reveal give-actions" style="margin-top:48px;">
-        <a href="https://wa.me/256752686576" target="_blank" rel="noopener noreferrer" class="btn btn-gold" style="padding:14px 32px;margin-right:12px;">Message Us on WhatsApp</a>
-        <a href="#contact" class="btn btn-outline-gold" style="padding:14px 32px;">Contact Us</a>
+    <div class="info-col connect-col">
+      <h3>Connect With Us</h3>
+      <p>New here? We'd love to meet you and welcome you into our church family.</p>
+      <a href="#contact" class="im-new">I'm New</a>
+      <div class="connect-list">
+        <a href="#prayer">Request Prayer</a>
+        <a href="#give">Give &amp; Donate</a>
+        <a href="https://wa.me/256752686576" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="prayer" class="section-pad light-section" style="background:var(--bg-brown);" aria-labelledby="prayer-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">We Stand With You</span>
-        <h2 id="prayer-heading">Submit a Prayer Request</h2>
-        <div class="divider"></div>
-        <p>Share what's on your heart and our ministry team will be praying with you in agreement.</p>
+<section class="section-pad" id="about">
+  <div class="wrap about-grid">
+    <div class="about-photo reveal" style="background-image:url('images/IMG-20260628-WA0019.jpg');">
+      <div class="accent" style="background-image:url('images/Founder.jpg');"></div>
+    </div>
+    <div class="about-text reveal">
+      <span class="eyebrow">Our Story</span>
+      <h2>A Ministry Built on<br>Truth and Revelation</h2>
+      <p>Purified By Truth Ministries is led by Founder and Pastor Sheila Nalweyiso, with a clear conviction that the Church of Jesus Christ is victorious, that truth still transforms lives, and that every believer is called to walk in Kingdom authority, holiness and purpose.</p>
+      <p>From our base in Luwero, Uganda, the ministry holds regular Sunday and midweek services while also travelling to host crusades in surrounding communities — reaching new visitors with the Gospel and welcoming them into a growing local church family.</p>
+      <div class="about-stats">
+        <div class="stat"><strong data-count="3">0</strong><span>Services Weekly</span></div>
+        <div class="stat"><strong data-count="9">0</strong><span>Core Objectives</span></div>
+        <div class="stat"><strong data-count="5">0</strong><span>Core Pillars</span></div>
       </div>
-      <div class="form-wrap reveal" style="max-width:700px;">
-        <form id="prayer-form" novalidate aria-label="Prayer request form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="pr-name">Full Name</label>
-              <input type="text" id="pr-name" name="full_name" placeholder="Your name" required aria-required="true">
-              <span class="error-msg" role="alert">Please enter your name.</span>
-            </div>
-            <div class="form-group">
-              <label for="pr-phone">Phone Number</label>
-              <input type="tel" id="pr-phone" name="phone" placeholder="+256 700 000 000">
-            </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad founder">
+  <div class="wrap founder-grid">
+    <div class="founder-photo reveal" style="background-image:url('images/Founder.jpg');"></div>
+    <div class="reveal">
+      <span class="eyebrow">Founder &amp; Pastor</span>
+      <h3>Sheila Nalweyiso</h3>
+      <p class="role">Founder, Purified By Truth Ministries</p>
+      <p>Pastor Sheila Nalweyiso founded Purified By Truth Ministries out of a conviction to lead people into a genuine revelation of Jesus Christ as the Son of the Living God, and to disciple believers into spiritual maturity through the uncompromising teaching of Scripture.</p>
+      <p>Under her leadership the ministry holds regular services in Luwero and travels to surrounding communities to host crusades, declaring the Gospel and inviting new believers into the local church family.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Our Purpose</span>
+      <h2>Vision &amp; Mission</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="vm-grid stagger">
+      <div class="vm-card">
+        <span class="tag">Vision</span>
+        <h3>Our Vision</h3>
+        <p>To raise a generation purified by the truth of God's Word, established upon the revelation of Jesus Christ, equipped with Kingdom authority, and commissioned to transform nations for the glory of God.</p>
+      </div>
+      <div class="vm-card">
+        <span class="tag">Mission</span>
+        <h3>Our Mission</h3>
+        <p>To proclaim God's truth, reveal Jesus Christ as Lord and Savior, disciple believers into spiritual maturity, equip them to exercise Kingdom authority, and build a victorious Church that advances God's Kingdom on earth.</p>
+      </div>
+    </div>
+    <div class="vm-quote reveal">
+      <p>"Purified by Truth. Rooted in Revelation. Advancing the Kingdom."</p>
+      <span>Truth &middot; Revelation &middot; Authority</span>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad pillars on-dark" id="pillars">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">What We Stand On</span>
+      <h2>Our Core Pillars</h2>
+      <div class="divider"></div>
+    </div>
+  </div>
+  <div class="pillar-grid">
+    <div class="pillar-card"><div class="num">01</div><h3>Truth</h3><p>Uncompromising teaching and application of God's Word in every season.</p></div>
+    <div class="pillar-card"><div class="num">02</div><h3>Revelation</h3><p>A deeper knowledge of Christ through the illumination of the Holy Spirit.</p></div>
+    <div class="pillar-card"><div class="num">03</div><h3>Church</h3><p>Building strong believers and strengthening the Body of Christ.</p></div>
+    <div class="pillar-card"><div class="num">04</div><h3>Authority</h3><p>Equipping believers to walk in Kingdom authority and fulfil God's purposes.</p></div>
+  </div>
+</section>
+
+<section class="section-pad" id="sermons">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Hear the Word</span>
+      <h2>Sermons &amp; Messages</h2>
+      <div class="divider"></div>
+      <p>All messages are shared as YouTube video links. Tap watch to open the sermon.</p>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="sunday">Sunday Service</button>
+      <button class="filter-btn" data-filter="midweek">Midweek Service</button>
+      <button class="filter-btn" data-filter="crusade">Crusade Highlights</button>
+    </div>
+    <div class="sermon-grid stagger" id="sermonGrid">
+      <div class="sermon-card" data-category="sunday">
+        <div class="sermon-img" style="background-image:url('images/kenya.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">Sunday Service</div>
+          <h3>Sanctified By the Truth</h3>
+          <p>An exploration of John 17:17 and what it means to be set apart by God's Word.</p>
+          <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-navy">Watch</a>
+        </div>
+      </div>
+      <div class="sermon-card" data-category="sunday">
+        <div class="sermon-img" style="background-image:url('images/sheep.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">Sunday Service</div>
+          <h3>Built On the Rock</h3>
+          <p>Understanding the revelation Peter received and what it means for the Church today.</p>
+          <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-navy">Watch</a>
+        </div>
+      </div>
+      <div class="sermon-card" data-category="midweek">
+        <div class="sermon-img" style="background-image:url('images/IMG-20260628-WA0010.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">Midweek Service</div>
+          <h3>The Keys of the Kingdom</h3>
+          <p>Understanding the authority believers carry according to Matthew 16:19.</p>
+          <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-navy">Watch</a>
+        </div>
+      </div>
+      <div class="sermon-card" data-category="crusade">
+        <div class="sermon-img" style="background-image:url('images/IMG-20260628-WA0014.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">Crusade Highlight</div>
+          <h3>Revelation of the Living God</h3>
+          <p>Highlights from a recent outreach crusade declaring Christ to the nations.</p>
+          <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-navy">Watch</a>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-gold">Visit Our YouTube Channel</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad events on-dark" id="events">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Join Us</span>
+      <h2>Events &amp; Crusades</h2>
+      <div class="divider"></div>
+      <p>Purified By Truth Ministries holds regular services in Luwero and travels to host crusades in surrounding communities.</p>
+    </div>
+    <div class="event-cards stagger">
+      <div class="event-card">
+        <div class="event-card-img" style="background-image:url('images/IMG-20260628-WA0019.jpg');"></div>
+        <div class="event-card-body">
+          <div class="card-tag" style="color:var(--gold-light);">This Sunday, 9:00 AM &amp; 11:00 AM</div>
+          <h3>Sunday Worship Service</h3>
+          <p>Join us for praise, the teaching of God's Word, and fellowship as one church family.</p>
+          <a href="#contact" class="btn btn-gold">Get Details</a>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-card-img" style="background-image:url('images/IMG-20260628-WA0009.jpg');"></div>
+        <div class="event-card-body">
+          <div class="card-tag" style="color:var(--gold-light);">Monday &amp; Wednesday, 5:00 PM</div>
+          <h3>Midweek Service</h3>
+          <p>A time of focused teaching and prayer to build disciples in the middle of the week.</p>
+          <a href="#contact" class="btn btn-gold">Get Details</a>
+        </div>
+      </div>
+      <div class="event-card">
+        <div class="event-card-img" style="background-image:url('images/IMG-20260628-WA0018.jpg');"></div>
+        <div class="event-card-body">
+          <div class="card-tag" style="color:var(--gold-light);">Upcoming Crusade</div>
+          <h3>Community Outreach Crusade</h3>
+          <p>An open-air crusade declaring the Gospel and inviting new visitors into God's Kingdom.</p>
+          <a href="#contact" class="btn btn-gold">Get Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="gallery-grid stagger">
+      <div class="gallery-item" style="background-image:url('images/IMG-20260628-WA0021.jpg');"></div>
+      <div class="gallery-item" style="background-image:url('images/sermon.jpg');"></div>
+      <div class="gallery-item" style="background-image:url('images/IMG-20260628-WA0007.jpg');"></div>
+      <div class="gallery-item" style="background-image:url('images/IMG-20260628-WA0015.jpg');"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="devotionals">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Daily Bread</span>
+      <h2>Devotionals &amp; Reflections</h2>
+      <div class="divider"></div>
+      <p>Short reflections from the Word to encourage and strengthen you between services.</p>
+    </div>
+    <div class="devo-grid stagger">
+      <div class="devo-card">
+        <div class="sermon-img" style="background-image:url('images/training.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">This Week's Devotional</div>
+          <h3>Sanctified by the Truth</h3>
+          <p>A short reflection on John 17:17 and what it means to be set apart daily by God's Word.</p>
+          <a href="#contact" class="btn btn-outline-navy">Read More</a>
+        </div>
+      </div>
+      <div class="devo-card">
+        <div class="sermon-img" style="background-image:url('images/team-leaders.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">Devotional</div>
+          <h3>Living in Revelation</h3>
+          <p>How a personal revelation of who Jesus is shapes the way we walk through every season of life.</p>
+          <a href="#contact" class="btn btn-outline-navy">Read More</a>
+        </div>
+      </div>
+      <div class="devo-card">
+        <div class="sermon-img" style="background-image:url('images/tanzania-uganda-team.jpg');"></div>
+        <div class="sermon-body">
+          <div class="card-tag">Devotional</div>
+          <h3>Walking in Kingdom Authority</h3>
+          <p>Practical thoughts on stewarding the keys of the Kingdom through prayer, faith and obedience.</p>
+          <a href="#contact" class="btn btn-outline-navy">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="give" style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Sow Into the Kingdom</span>
+      <h2>Give &amp; Donate</h2>
+      <div class="divider"></div>
+      <p>Your giving supports our services, crusades, outreach and the work of advancing God's Kingdom.</p>
+    </div>
+    <div class="give-banner reveal"><img src="images/IMG-20260628-WA0010.jpg" alt="Community gathered for an outreach crusade in Luwero"></div>
+    <div class="give-cards stagger">
+      <div class="give-card">
+        <h3>Mobile Money</h3>
+        <div class="g-item"><div class="g-icon">MTN</div><div><strong>MTN Mobile Money</strong><p>+256 752 686 576 · Purified By Truth Ministries</p></div></div>
+        <div class="g-item"><div class="g-icon">A</div><div><strong>Airtel Money</strong><p>+256 752 686 576 · Purified By Truth Ministries</p></div></div>
+        <p class="give-note">Please contact us first via WhatsApp or phone to confirm details before sending mobile money.</p>
+      </div>
+      <div class="give-card">
+        <h3>Bank Transfer</h3>
+        <div class="g-item"><div class="g-icon">B</div><div><strong>Account Name</strong><p>Purified By Truth Ministries</p></div></div>
+        <div class="g-item"><div class="g-icon">D</div><div><strong>Bank Details</strong><p>Available on request — please contact us for full account details.</p></div></div>
+        <p class="give-note">Email purifiedbytruth@gmail.com or message us on WhatsApp to receive complete bank account information.</p>
+      </div>
+    </div>
+    <div class="give-actions reveal">
+      <a href="https://wa.me/256752686576" target="_blank" rel="noopener noreferrer" class="btn btn-gold">Message Us on WhatsApp</a>
+      <a href="#contact" class="btn btn-outline-navy">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="prayer" style="background:var(--cream);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">We Stand With You</span>
+      <h2>Submit a Prayer Request</h2>
+      <div class="divider"></div>
+      <p>Share what's on your heart and our ministry team will be praying with you in agreement.</p>
+    </div>
+    <div class="form-wrap reveal" style="max-width:700px;margin:0 auto;">
+      <form id="prayer-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pr-name">Full Name</label>
+            <input type="text" id="pr-name" name="full_name" placeholder="Your name" required>
           </div>
           <div class="form-group">
-            <label for="pr-email">Email Address</label>
-            <input type="email" id="pr-email" name="email" placeholder="your@email.com" required aria-required="true">
-            <span class="error-msg" role="alert">Please enter a valid email address.</span>
-          </div>
-          <div class="form-group">
-            <label for="pr-category">Prayer Category</label>
-            <select id="pr-category" name="category" required aria-required="true">
-              <option value="" disabled selected>Select a category</option>
-              <option value="healing">Healing</option>
-              <option value="family">Family</option>
-              <option value="finances">Finances</option>
-              <option value="salvation">Salvation of a Loved One</option>
-              <option value="thanksgiving">Thanksgiving</option>
-              <option value="other">Other</option>
-            </select>
-            <span class="error-msg" role="alert">Please select a category.</span>
-          </div>
-          <div class="form-group">
-            <label for="pr-request">Your Prayer Request</label>
-            <textarea id="pr-request" name="request" placeholder="Share your prayer request here&hellip;" required aria-required="true" style="min-height:160px;"></textarea>
-            <span class="error-msg" role="alert">Please enter your prayer request.</span>
-          </div>
-          <button type="submit" class="btn btn-gold" style="width:100%;padding:16px;">Submit Prayer Request</button>
-        </form>
-        <div class="form-success" id="prayer-success" role="status" aria-live="polite">
-          <div class="tick" aria-hidden="true">&#10003;</div>
-          <h3>Request Received</h3>
-          <p>Thank you for trusting us with your prayer request. Our ministry team will be praying with you.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="section-pad light-section purple-tint" aria-labelledby="contact-heading">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="eyebrow">Get in Touch</span>
-        <h2 id="contact-heading">We'd Love to Hear From You</h2>
-        <div class="divider"></div>
-        <p>Whether it's a question, a prayer need, or you'd like to plan your first visit &mdash; we're here.</p>
-      </div>
-      <div class="contact-grid">
-        <div class="contact-info-card reveal reveal-left">
-          <h3>Ministry Information</h3>
-          <div class="c-item"><div class="c-icon" aria-hidden="true">L</div><div><strong>Location</strong><p>Luwero, Uganda</p></div></div>
-          <div class="c-item"><div class="c-icon" aria-hidden="true">P</div><div><strong>Phone</strong><p><a href="tel:+256752686576" style="color:var(--gray-mid);">+256 752 686 576</a></p></div></div>
-          <div class="c-item"><div class="c-icon" aria-hidden="true">E</div><div><strong>Email</strong><p><a href="mailto:purifiedbytruth@gmail.com" style="color:var(--gray-mid);">purifiedbytruth@gmail.com</a></p></div></div>
-          <div class="c-item"><div class="c-icon" aria-hidden="true">W</div><div><strong>WhatsApp</strong><p><a href="https://wa.me/256752686576" style="color:var(--gray-mid);">+256 752 686 576</a></p></div></div>
-          <h4 style="font-family:var(--font-display);font-size:1rem;color:var(--white);margin-top:24px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid rgba(31,122,77,.2);">Service Times</h4>
-          <table class="hours-table" aria-label="Service times">
-            <tbody>
-              <tr><td>Sunday</td><td>9:00 AM <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> 11:00 AM</td></tr>
-              <tr><td>Monday</td><td>5:00 PM</td></tr>
-              <tr><td>Wednesday</td><td>5:00 PM</td></tr>
-            </tbody>
-          </table>
-          <div class="map-wrap" aria-label="Map showing ministry location in Luwero, Uganda">
-            <div style="text-align:center;">
-              <div style="font-size:1.4rem;margin-bottom:8px;color:var(--gold);font-weight:700;">MAP</div>
-              <p>Luwero, Uganda</p>
-              <a href="https://maps.google.com/?q=Luwero+Uganda" target="_blank" rel="noopener noreferrer" class="btn btn-outline-gold" style="margin-top:12px;padding:8px 18px;font-size:.8rem;">View on Google Maps</a>
-            </div>
+            <label for="pr-phone">Phone Number</label>
+            <input type="tel" id="pr-phone" name="phone" placeholder="+256 700 000 000">
           </div>
         </div>
-        <div class="reveal reveal-right">
-          <div class="form-wrap" style="background:var(--bg-card);">
-            <h3 style="font-family:var(--font-display);font-size:1.5rem;color:var(--white);margin-bottom:28px;">Send Us a Message</h3>
-            <form id="contact-form" novalidate aria-label="Contact form">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="ct-name">Full Name</label>
-                  <input type="text" id="ct-name" name="name" placeholder="Your name" required aria-required="true">
-                  <span class="error-msg" role="alert">Please enter your name.</span>
-                </div>
-                <div class="form-group">
-                  <label for="ct-phone">Phone Number</label>
-                  <input type="tel" id="ct-phone" name="phone" placeholder="+256 700 000 000">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="ct-email">Email Address</label>
-                <input type="email" id="ct-email" name="email" placeholder="your@email.com" required aria-required="true">
-                <span class="error-msg" role="alert">Please enter a valid email address.</span>
-              </div>
-              <div class="form-group">
-                <label for="ct-subject">Subject</label>
-                <select id="ct-subject" name="subject" required aria-required="true">
-                  <option value="" disabled selected>Select a subject</option>
-                  <option value="visit">Planning a Visit</option>
-                  <option value="prayer">Prayer Request</option>
-                  <option value="giving">Giving / Donations</option>
-                  <option value="crusade">Crusade Invitation</option>
-                  <option value="other">Other</option>
-                </select>
-                <span class="error-msg" role="alert">Please select a subject.</span>
-              </div>
-              <div class="form-group">
-                <label for="ct-message">Message</label>
-                <textarea id="ct-message" name="message" placeholder="Write your message here&hellip;" required aria-required="true" style="min-height:150px;"></textarea>
-                <span class="error-msg" role="alert">Please enter your message.</span>
-              </div>
-              <button type="submit" class="btn btn-gold" style="width:100%;padding:16px;">Send Message</button>
-            </form>
-            <div class="form-success" id="contact-success" role="status" aria-live="polite">
-              <div class="tick" aria-hidden="true">&#10003;</div>
-              <h3>Message Sent!</h3>
-              <p>Thank you for reaching out. A member of our ministry team will get back to you soon.</p>
-            </div>
-          </div>
+        <div class="form-group">
+          <label for="pr-email">Email Address</label>
+          <input type="email" id="pr-email" name="email" placeholder="your@email.com" required>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="newsletter" aria-labelledby="newsletter-heading">
-    <div class="container">
-      <span class="eyebrow" style="display:block;margin-bottom:10px;">Stay Connected</span>
-      <h2 id="newsletter-heading">Get Updates From Purified By Truth</h2>
-      <p>Subscribe to receive the latest sermons, crusade dates and devotionals straight to your inbox.</p>
-      <form class="newsletter-form" id="newsletter-form" novalidate aria-label="Newsletter subscription">
-        <input type="email" placeholder="Enter your email address" aria-label="Email address" required>
-        <button type="submit" class="btn btn-gold">Subscribe</button>
+        <div class="form-group">
+          <label for="pr-category">Prayer Category</label>
+          <select id="pr-category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option value="healing">Healing</option>
+            <option value="family">Family</option>
+            <option value="finances">Finances</option>
+            <option value="salvation">Salvation of a Loved One</option>
+            <option value="thanksgiving">Thanksgiving</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pr-request">Your Prayer Request</label>
+          <textarea id="pr-request" name="request" placeholder="Share your prayer request here…" required style="min-height:150px;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold" style="width:100%;padding:16px;">Submit Prayer Request</button>
       </form>
-      <p id="newsletter-success" role="status">Thank you for subscribing! We are glad to have you with us.</p>
+      <div class="form-success" id="prayer-success">
+        <div class="tick">&#10003;</div>
+        <h3>Request Received</h3>
+        <p>Thank you for trusting us with your prayer request. Our ministry team will be praying with you.</p>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer role="contentinfo">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="nav-logo">Purified By Truth <span>Ministries</span></div>
-          <p>Truth. Revelation. Authority. A ministry raising disciples, equipping leaders and advancing the Kingdom in Luwero, Uganda and beyond.</p>
-          <div class="footer-socials">
-            <a href="https://wa.me/256752686576" class="social-link" aria-label="WhatsApp">WhatsApp</a>
+<section class="section-pad on-dark" id="contact" style="background:var(--navy);">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Get in Touch</span>
+      <h2>We'd Love to Hear From You</h2>
+      <div class="divider"></div>
+      <p>Whether it's a question, a prayer need, or you'd like to plan your first visit — we're here.</p>
+    </div>
+    <div class="contact-layout">
+      <div class="contact-info reveal">
+        <h3>Ministry Information</h3>
+        <div class="c-item"><div class="c-icon">L</div><div><strong>Location</strong><p>Luwero, Uganda</p></div></div>
+        <div class="c-item"><div class="c-icon">P</div><div><strong>Phone</strong><a href="tel:+256752686576">+256 752 686 576</a></div></div>
+        <div class="c-item"><div class="c-icon">E</div><div><strong>Email</strong><a href="mailto:purifiedbytruth@gmail.com">purifiedbytruth@gmail.com</a></div></div>
+        <div class="c-item"><div class="c-icon">W</div><div><strong>WhatsApp</strong><a href="https://wa.me/256752686576" target="_blank" rel="noopener noreferrer">+256 752 686 576</a></div></div>
+        <table class="hours-table">
+          <tr><td>Sunday</td><td>9:00 AM &amp; 11:00 AM</td></tr>
+          <tr><td>Monday</td><td>5:00 PM</td></tr>
+          <tr><td>Wednesday</td><td>5:00 PM</td></tr>
+        </table>
+        <div class="map-note">Find us in Luwero, Uganda — <a href="https://maps.google.com/?q=Luwero+Uganda" target="_blank" rel="noopener noreferrer">view on Google Maps</a></div>
+      </div>
+      <div class="reveal">
+        <div class="form-wrap on-navy">
+          <h3 style="color:#fff;font-size:20px;margin-bottom:22px;">Send Us a Message</h3>
+          <form id="contact-form" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ct-name">Full Name</label>
+                <input type="text" id="ct-name" name="name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label for="ct-phone">Phone Number</label>
+                <input type="tel" id="ct-phone" name="phone" placeholder="+256 700 000 000">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="ct-email">Email Address</label>
+              <input type="email" id="ct-email" name="email" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="ct-subject">Subject</label>
+              <select id="ct-subject" name="subject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option value="visit">Planning a Visit</option>
+                <option value="prayer">Prayer Request</option>
+                <option value="giving">Giving / Donations</option>
+                <option value="crusade">Crusade Invitation</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ct-message">Message</label>
+              <textarea id="ct-message" name="message" placeholder="Write your message here…" required style="min-height:130px;"></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold" style="width:100%;padding:16px;">Send Message</button>
+          </form>
+          <div class="form-success" id="contact-success">
+            <div class="tick">&#10003;</div>
+            <h3 style="color:#fff;">Message Sent!</h3>
+            <p style="color:#c3cee0;">Thank you for reaching out. A member of our ministry team will get back to you soon.</p>
           </div>
         </div>
-        <div>
-          <h4>Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#sermons">Sermons</a></li>
-            <li><a href="#events">Events</a></li>
-            <li><a href="#devotionals">Devotionals</a></li>
-            <li><a href="#give">Give <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> Donate</a></li>
-            <li><a href="#prayer">Prayer Requests</a></li>
-            <li><a href="#contact">Contact Us</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Service Times</h4>
-          <ul class="footer-hours">
-            <li><span>Sunday:</span> 9:00 AM <span style="font-family:Arial,sans-serif;font-weight:600;">&amp;</span> 11:00 AM</li>
-            <li><span>Monday:</span> 5:00 PM</li>
-            <li><span>Wednesday:</span> 5:00 PM</li>
-            <li style="margin-top:12px;color:var(--gold);">Luwero, Uganda</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Contact Us</h4>
-          <div class="footer-contact-item"><strong>Phone</strong><a href="tel:+256752686576" style="color:var(--gray-mid)">+256 752 686 576</a></div>
-          <div class="footer-contact-item"><strong>Email</strong><a href="mailto:purifiedbytruth@gmail.com" style="color:var(--gray-mid)">purifiedbytruth@gmail.com</a></div>
-          <div class="footer-contact-item"><strong>Location</strong><p>Luwero, Uganda</p></div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 Purified By Truth Ministries. All rights reserved.</p>
-        <p>Sanctify them by Your truth. Your Word is truth. &mdash; John 17:17</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Latest Message Popup -->
-  <div id="latest-popup" role="dialog" aria-modal="true" aria-label="Watch our latest message">
-    <div class="latest-popup-card">
-      <button id="latest-popup-close" aria-label="Close">&times;</button>
-      <div class="latest-popup-img">
-        <img src="images/sermon.jpg" alt="Latest message from Purified By Truth Ministries" loading="lazy">
-        <span class="latest-popup-play" aria-hidden="true">&#9658;</span>
-      </div>
-      <div class="latest-popup-body">
-        <span class="eyebrow">New This Week</span>
-        <h3>Watch Our Latest Message</h3>
-        <p>Catch up on the most recent sermon from Purified By Truth Ministries, straight from our YouTube channel.</p>
-        <div class="latest-popup-actions">
-          <a href="https://www.youtube.com/results?search_query=Purified+By+Truth+Ministries" target="_blank" rel="noopener noreferrer" class="btn btn-gold">Watch Now</a>
-          <button id="latest-popup-dismiss" class="btn btn-outline-gold" type="button">Maybe Later</button>
-        </div>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Sermon Video Modal -->
-  <div id="video-modal" role="dialog" aria-modal="true" aria-label="Sermon video player">
-    <div class="video-modal-inner">
-      <div class="video-modal-head">
-        <h4 id="video-modal-title">Sermon</h4>
-        <button id="video-modal-close" aria-label="Close video">&times;</button>
+<section class="newsletter">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--gold-light);">Stay Connected</span>
+    <h2>Get Updates From Purified By Truth</h2>
+    <p>Subscribe to receive the latest sermons, crusade dates and devotionals straight to your inbox.</p>
+    <form class="newsletter-form" id="newsletter-form" novalidate>
+      <input type="email" placeholder="Enter your email address" required>
+      <button type="submit" class="btn btn-gold">Subscribe</button>
+    </form>
+    <p class="newsletter-success" id="newsletter-success">Thank you for subscribing! We are glad to have you with us.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="name">Purified By Truth Ministries</div>
+        <p>Truth. Revelation. Authority. A ministry raising disciples, equipping leaders and advancing the Kingdom in Luwero, Uganda and beyond.</p>
+        <a href="https://wa.me/256752686576" class="whatsapp" target="_blank" rel="noopener noreferrer">Chat on WhatsApp →</a>
       </div>
-      <div class="video-modal-frame">
-        <iframe id="video-modal-iframe" src="" title="Sermon video player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#sermons">Sermons</a></li>
+          <li><a href="#events">Events</a></li>
+          <li><a href="#devotionals">Devotionals</a></li>
+          <li><a href="#give">Give &amp; Donate</a></li>
+          <li><a href="#prayer">Prayer Requests</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Service Times</h4>
+        <ul>
+          <li>Sunday: 9:00 AM &amp; 11:00 AM</li>
+          <li>Monday: 5:00 PM</li>
+          <li>Wednesday: 5:00 PM</li>
+          <li style="color:var(--gold-light);">Luwero, Uganda</li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="tel:+256752686576">+256 752 686 576</a></li>
+          <li><a href="mailto:purifiedbytruth@gmail.com">purifiedbytruth@gmail.com</a></li>
+          <li>Luwero, Uganda</li>
+        </ul>
       </div>
     </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Purified By Truth Ministries. All rights reserved.</span>
+      <span>"Sanctify them by Your truth. Your Word is truth." — John 17:17</span>
+    </div>
   </div>
+</footer>
 
-  <a href="https://wa.me/256752686576" target="_blank" rel="noopener noreferrer" id="whatsapp-float" aria-label="Chat with Purified By Truth Ministries on WhatsApp">
-    <span class="whatsapp-pulse" aria-hidden="true"></span>
-    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.02 3C9.4 3 4 8.38 4 15c0 2.36.68 4.56 1.86 6.42L4 29l7.76-1.82A11.9 11.9 0 0 0 16.02 27C22.64 27 28 21.62 28 15S22.64 3 16.02 3Zm0 21.6c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.6 1.08 1.1-4.48-.25-.4A9.55 9.55 0 0 1 5.4 15c0-5.86 4.77-10.6 10.62-10.6S26.6 9.14 26.6 15 21.86 24.6 16.02 24.6Zm5.83-7.94c-.32-.16-1.9-.94-2.2-1.04-.3-.11-.51-.16-.73.16-.21.32-.84 1.04-1.03 1.25-.19.22-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.6-.95-.85-1.6-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.57.16-.19.21-.32.32-.54.11-.22.05-.4-.03-.57-.08-.16-.73-1.77-1-2.42-.26-.63-.53-.55-.73-.56-.19-.01-.4-.01-.62-.01-.21 0-.57.08-.87.4-.3.32-1.14 1.11-1.14 2.72s1.17 3.15 1.33 3.37c.16.22 2.3 3.53 5.58 4.94.78.34 1.39.54 1.86.7.78.25 1.5.21 2.06.13.63-.1 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.29-.21-.6-.37Z"/></svg>
-  </a>
-  <script src="js/slider.js"></script>
-  <script src="js/script.js"></script>
+<a href="https://wa.me/256752686576" target="_blank" rel="noopener noreferrer" id="whatsapp-float" aria-label="Chat on WhatsApp">
+  <span class="wa-pulse"></span>
+  <svg viewBox="0 0 32 32"><path d="M16.02 3C9.4 3 4 8.38 4 15c0 2.36.68 4.56 1.86 6.42L4 29l7.76-1.82A11.9 11.9 0 0 0 16.02 27C22.64 27 28 21.62 28 15S22.64 3 16.02 3Zm0 21.6c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.6 1.08 1.1-4.48-.25-.4A9.55 9.55 0 0 1 5.4 15c0-5.86 4.77-10.6 10.62-10.6S26.6 9.14 26.6 15 21.86 24.6 16.02 24.6Zm5.83-7.94c-.32-.16-1.9-.94-2.2-1.04-.3-.11-.51-.16-.73.16-.21.32-.84 1.04-1.03 1.25-.19.22-.38.24-.7.08-.32-.16-1.35-.5-2.57-1.6-.95-.85-1.6-1.9-1.78-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.57.16-.19.21-.32.32-.54.11-.22.05-.4-.03-.57-.08-.16-.73-1.77-1-2.42-.26-.63-.53-.55-.73-.56-.19-.01-.4-.01-.62-.01-.21 0-.57.08-.87.4-.3.32-1.14 1.11-1.14 2.72s1.17 3.15 1.33 3.37c.16.22 2.3 3.53 5.58 4.94.78.34 1.39.54 1.86.7.78.25 1.5.21 2.06.13.63-.1 1.9-.78 2.17-1.53.27-.75.27-1.4.19-1.53-.08-.13-.29-.21-.6-.37Z"/></svg>
+</a>
 
-  <script>
-    (function() {
-      const form    = document.getElementById('prayer-form');
-      const success = document.getElementById('prayer-success');
-      if (form) form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (validateForm('prayer-form')) {
-          form.style.display = 'none';
-          success.style.display = 'block';
-          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      });
-    })();
-    (function() {
-      const form    = document.getElementById('contact-form');
-      const success = document.getElementById('contact-success');
-      if (form) form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        if (validateForm('contact-form')) {
-          form.style.display = 'none';
-          success.style.display = 'block';
-          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-      });
-    })();
-  </script>
+<script>
+  // Nav scroll background + mobile toggle
+  const nav = document.getElementById('siteNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // Scroll reveal
+  const revealTargets = document.querySelectorAll('.reveal, .stagger');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealTargets.forEach(t => revealObserver.observe(t));
+
+  // Counter animation
+  const counters = document.querySelectorAll('[data-count]');
+  const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, end = parseInt(el.dataset.count, 10);
+      let cur = 0; const step = Math.max(1, Math.ceil(end / 40));
+      const t = setInterval(() => { cur += step; if (cur >= end) { cur = end; clearInterval(t); } el.textContent = cur; }, 40);
+      counterObserver.unobserve(el);
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(c => counterObserver.observe(c));
+
+  // Sermon filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const sermonCards = document.querySelectorAll('#sermonGrid .sermon-card');
+  filterBtns.forEach(btn => btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    sermonCards.forEach(card => {
+      card.classList.toggle('hidden', f !== 'all' && card.dataset.category !== f);
+    });
+  }));
+
+  // Form success handlers
+  function wireForm(formId, successId) {
+    const form = document.getElementById(formId);
+    const success = document.getElementById(successId);
+    if (!form) return;
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      form.style.display = 'none';
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+  wireForm('prayer-form', 'prayer-success');
+  wireForm('contact-form', 'contact-success');
+
+  const nlForm = document.getElementById('newsletter-form');
+  const nlSuccess = document.getElementById('newsletter-success');
+  nlForm.addEventListener('submit', e => {
+    e.preventDefault();
+    nlForm.style.display = 'none';
+    nlSuccess.style.display = 'block';
+  });
+</script>
+
 </body>
 </html>
